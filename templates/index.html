@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        #urlInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        #submitButton {
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #resultParagraph {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <input type="text" id="urlInput" placeholder="Digite a URL">
+        <button id="submitButton" onclick="encurtarURL()">Enviar</button>
+        <p id="resultParagraph"></p>
+    </div>
+
+    <script>
+        function encurtarURL() {
+            const urlInput = document.getElementById('urlInput');
+            const resultParagraph = document.getElementById('resultParagraph');
+
+            // Substitua 'http://localhost' pela sua URL de API real
+            const apiUrl = 'http://localhost:5000';
+
+            // Chamada à API
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: urlInput.value })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Exibir o resultado na página
+                resultParagraph.textContent = `URL encurtada: ${data.shortUrl}`;
+            })
+            .catch(error => {
+                console.error('Erro na chamada à API:', error);
+                resultParagraph.textContent = 'Erro ao encurtar a URL.';
+            });
+        }
+    </script>
+</body>
+</html>
